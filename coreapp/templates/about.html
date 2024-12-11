@@ -1,0 +1,75 @@
+ {% extends "starter-page.html" %}
+
+ {% load static %}
+
+ {% block body %}
+ 
+ <!-- About Section -->
+ <section id="about" class="about section " style="background-color: #E6E6FA">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+      <h2>About Us<br></h2>
+      <p><span>Learn More</span> <span class="description-title">About Us</span></p>
+    </div><!-- End Section Title -->
+
+    <div class="container">
+
+      <div class="row gy-4">
+        <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100">
+          <img src="{% static "assets/img/about3.jpg"%}" class="img-fluid mb-4" alt="">
+          <div class="book-a-table">
+            <h3>Book a Table</h3>
+            <p>+254712512176</p>
+          </div>
+        </div>
+        <div class="col-lg-5" data-aos="fade-up" data-aos-delay="250">
+          <div class="content ps-0 ps-lg-5">
+            <p class="fst-italic" style="color: #333333">
+              Welcome to Corner Restaurant, where flavors meet faith, and every meal tells a story. Nestled in the heart of Kajiado Town, we are more than just a place to dine – we are a celebration of good food, warm hospitality, and a commitment to excellence.
+
+At Corner Restaurant, we believe that food has 
+the power to bring people together. Inspired by global flavors, our menu is crafted with love, using the freshest, locally-sourced ingredients. 
+Every dish is a blend of authenticity and creativity, designed to delight your taste buds and nourish your soul.
+            </p>
+            <ul>
+              <h3>Our Mission</h3>
+              <li><i class="bi bi-check-circle-fill"></i> <span>To serve wholesome, delicious meals in an environment 
+                that radiates warmth, community, and joy. We are passionate about creating a dining experience that leaves a lasting
+                 impression, whether you're celebrating a special occasion or enjoying a casual meal with loved ones.</span></li>
+                 <h3>Our Values</h3>
+              <li><i class="bi bi-check-circle-fill"></i> <span><b>Quality:</b> Every ingredient, every dish, every moment 
+                is a testament to our commitment to excellence.</span></li>
+                <li><i class="bi bi-check-circle-fill"></i> <span><b>Community:</b> We strive to be a place where connections are made, 
+                  memories are cherished, and everyone feels at home.</span></li>
+                  
+                  <li><i class="bi bi-check-circle-fill"></i> <span><b>Sustainability:</b> We take pride in supporting local farmers 
+                    and using eco-friendly practices to make a positive impact.</span></li>
+                    <h3>Why Choose Us?</h3>
+              <li><i class="bi bi-check-circle-fill"></i> <span>A thoughtfully curated menu catering to all taste preferences.</span></li>
+              <li><i class="bi bi-check-circle-fill"></i> <span>A warm and welcoming ambiance that makes you feel like family.</span></li>
+              <li><i class="bi bi-check-circle-fill"></i> <span>Exceptional customer service that goes the extra mile to ensure your satisfaction.</span></li>
+            </ul>
+            <p>
+              Whether you're here for the food, the fellowship, or the faith-inspired ambiance, we are honored to serve you. 
+              
+              Thank you for making us a part of your journey. We look forward to welcoming you again and again.
+            </p>
+
+            <div class="position-relative mt-4">
+              <img src="{% static "assets/img/about-2.jpg"%}" class="img-fluid" alt="">
+              <a href="https://youtu.be/daDGzysYO-s" class="glightbox pulsating-play-btn"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section><!-- /About Section -->
+ 
+ 
+ 
+ 
+ 
+ {% endblock %}

@@ -1,0 +1,32 @@
+{% extends "starter-page.html" %}
+{% load static %}
+{% block body %}
+
+<table class='table container table-dark'>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Subject</th>
+        <th>Message</th>
+        <th>Action</th>
+    </tr>
+    {% for x in message %}
+    <tr>
+        <td>{{ x.name }}</td>
+        <td>{{ x.email }}</td>
+        <td>{{ x.phone }}</td>
+        <td>{{ x.subject }}</td>
+        <td>{{ x.message }}</td>
+        <td>
+            <a href="/edit/{{ x.id }}" class="btn btn-success">EDIT</a>
+            <a href="/delete/{{ x.id }}" class="btn btn-danger">DELETE</a>
+        </td>
+    </tr>
+    
+    
+    
+    
+    
+    {% endfor %}
+</table>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "starter-page.html" %}
+{% load static%}
+
+{% block body %}
+    <h1>Add a New Menu Item</h1>
+    <form method="post" enctype="multipart/form-data">
+        <div data-mdb-input-init class="form-outline mb-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        </div>
+        <button type="submit">Add Menu Item</button>
+    </form>
+{% endblock %}

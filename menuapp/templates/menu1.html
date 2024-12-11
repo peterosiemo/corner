@@ -1,0 +1,68 @@
+{% extends "starter-page.html" %}
+{% load static %}
+
+{% block body %}
+
+<!-- Menu Section -->
+<section id="menu" class="menu section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>Our Menu</h2>
+        <p><span>Check Our</span> <span class="description-title">Corner Restaurant</span></p>
+    </div>
+
+    <div class="container">
+
+        <ul class="nav nav-tabs d-flex justify-content-center" data-aos="fade-up" data-aos-delay="100">
+            {% for category in categories %}
+            <li class="nav-item">
+                <a class="nav-link {% if forloop.first %}active show{% endif %}" data-bs-toggle="tab" data-bs-target="#menu-{{ category.id }}">
+                    <h4>{{ category.name }}</h4>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <div class="tab-content" data-aos="fade-up" data-aos-delay="200">
+
+            {% for category in categories %}
+            <div class="tab-pane fade {% if forloop.first %}active show{% endif %}" id="menu-{{ category.id }}">
+
+                <div class="tab-header text-center">
+                    <p>Menu</p>
+                    <h3>{{ category.name }}</h3>
+                </div>
+
+                <div class="row gy-5">
+                    {% for item in category.items.all %}
+                    <div class="col-lg-4 menu-item">
+                        {% if item.photo %}
+                        <a href="{{ item.photo.url }}" class="glightbox">
+                            <img src="{{ item.photo.url }}" class="menu-img img-fluid" alt="{{ item.name }}">
+                        </a>
+                        {% endif %}
+                        <h4>{{ item.name }}</h4>
+                        <p class="ingredients">
+                            {{ item.description }}
+                        </p>
+                        <p class="price">
+                            Ksh. {{ item.price }}
+                        </p>
+                        {% if not item.is_available %}
+                        <p style="color: red;">Not Available</p>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

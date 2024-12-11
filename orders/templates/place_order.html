@@ -1,0 +1,23 @@
+{% extends "starter-page.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Place an Order</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="menu_item_id" class="form-label">Select Item</label>
+            <select name="menu_item_id" id="menu_item_id" class="form-select">
+                {% for item in menu_items %}
+                <option value="{{ item.id }}">{{ item.name }} - Ksh. {{ item.price }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Quantity</label>
+            <input type="number" name="quantity" id="quantity" class="form-control" value="1" min="1">
+        </div>
+        <button type="submit" class="btn btn-primary">Place Order</button>
+    </form>
+</div>
+{% endblock %}

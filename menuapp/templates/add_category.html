@@ -1,0 +1,11 @@
+{% extends "starter-page.html" %}
+{% load static%}
+
+{% block body %}
+    <h1>Add a New Category</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Category</button>
+    </form>
+{% endblock %}

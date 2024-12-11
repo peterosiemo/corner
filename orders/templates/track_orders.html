@@ -1,0 +1,22 @@
+{% extends "starter-page.html" %}
+
+{% block body %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Track Your Orders</h2>
+    <ul class="list-group">
+        {% for order in orders %}
+        <li class="list-group-item">
+            <strong>Order #{{ order.id }}</strong> - {{ order.get_status_display }}
+            <ul>
+                {% for item in order.items.all %}
+                <li>{{ item.menu_item.name }} (x{{ item.quantity }}) - Ksh. {{ item.total_price }}</li>
+                {% endfor %}
+            </ul>
+            <span class="badge bg-secondary">{{ order.created_at }}</span>
+        </li>
+        {% empty %}
+        <li class="list-group-item text-center">No orders found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

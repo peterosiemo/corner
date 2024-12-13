@@ -1,0 +1,30 @@
+{% extends "starter-page.html" %}
+{% block body %}
+<section class="staff-list">
+    <div class="container">
+        <h2>Staff Members</h2>
+        <a href="{% url 'add_staff' %}" class="btn btn-primary">Add Staff</a>
+        <div class="row gy-4">
+            {% for staff in staff_members %}
+            <div class="col-lg-4">
+                <div class="card">
+                    <img src="{{ staff.photo.url }}" class="card-img-top" alt="{{ staff.name }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ staff.name }}</h5>
+                        <p class="card-text">{{ staff.role }}</p>
+                        <p>{{ staff.bio }}</p>
+                        <div class="d-flex">
+                            <a href="{% url 'edit_staff' staff.pk %}" class="btn btn-warning me-2">Edit</a>
+                            <form action="{% url 'delete_staff' staff.pk %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

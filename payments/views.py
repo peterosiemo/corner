@@ -1,78 +1,50 @@
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from .models import Payment
 import json
-import logging
+from django.http import HttpResponse
+from django.shortcuts import  render
+import requests
+from requests.auth import HTTPBasicAuth
+from payments.credentials import MpesaAccessToken, LipanaMpesaPpassword
 
-logger = logging.getLogger(__name__)
 
-def initiate_payment(request):
-    if request.method == 'POST':
-        amount = request.POST.get('amount')
-        phone_number = request.POST.get('phone_number')
-        account_reference = 'AccountReference'
-        transaction_desc = 'Payment Description'
-        callback_url = settings.MPESA_CALLBACK_URL
+def token(request):
+    consumer_key = 'yBNk11D2pmbmE4kBsvGi0GVduO6ruoVRQB7fOdouLPDH0AVM'
+    consumer_secret = '88xpBaZ7LgF67csyo1yxERIExaZn4iPMGDejzyLcBzlg0VRKIlDfl9pULRMIJBBm'
+    api_URL = 'https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials'
 
-        cl = MpesaClient()
-        response = cl.stk_push(phone_number, amount, account_reference, transaction_desc, callback_url)
+    r = requests.get(api_URL, auth=HTTPBasicAuth(
+        consumer_key, consumer_secret))
+    mpesa_access_token = json.loads(r.text)
+    validated_mpesa_access_token = mpesa_access_token["access_token"]
 
-        # Handle response and save payment details
-        if response['ResponseCode'] == '0':
-            transaction_id = response['CheckoutRequestID']
-            Payment.objects.create(
-                user=request.user,
-                amount=amount,
-                transaction_id=transaction_id,
-                status='Pending'
-            )
-            return redirect('payment_success')
-        else:
-            return redirect('payment_failed')
+    return render(request, 'token.html', {"token":validated_mpesa_access_token})
 
-    return render(request, 'initiate_payment.html')
+def pay(request):
+   return render(request, 'pay.html')
 
-@csrf_exempt
-def payment_confirmation(request):
-    if request.method == 'POST':
-        try:
-            # Parse JSON data from the M-Pesa callback
-            callback_data = json.loads(request.body)
-            logger.info(f"Callback Data Received: {callback_data}")
 
-            # Extract relevant details
-            result_code = callback_data['Body']['stkCallback']['ResultCode']
-            checkout_request_id = callback_data['Body']['stkCallback']['CheckoutRequestID']
-            result_desc = callback_data['Body']['stkCallback']['ResultDesc']
-            callback_metadata = callback_data['Body']['stkCallback'].get('CallbackMetadata', {}).get('Item', [])
 
-            # Fetch the payment record based on the CheckoutRequestID
-            try:
-                payment = Payment.objects.get(transaction_id=checkout_request_id)
-            except Payment.DoesNotExist:
-                logger.error(f"Payment record not found for CheckoutRequestID: {checkout_request_id}")
-                return JsonResponse({"error": "Payment record not found"}, status=404)
-
-            # Update payment status based on the ResultCode
-            if result_code == 0:
-                # Payment was successful
-                payment.status = "Completed"
-                # Optionally, save additional details like receipt number
-                for item in callback_metadata:
-                    if item['Name'] == 'MpesaReceiptNumber':
-                        payment.mpesa_receipt_number = item['Value']
-                    if item['Name'] == 'PhoneNumber':
-                        payment.phone_number = item['Value']
-            else:
-                # Payment failed
-                payment.status = "Failed"
-
-            payment.save()
-            logger.info(f"Payment status updated: {payment.status} for transaction {checkout_request_id}")
-            return JsonResponse({"message": "Payment status updated successfully"})
-
-        except Exception as e:
-            logger.error(f"Error processing payment confirmation: {str(e)}")
-            return JsonResponse({"error": str(e)}, status=500)
-
-    return JsonResponse({"error": "Invalid request method"}, status=400)
+def stk(request):
+    if request.method =="POST":
+        phone = request.POST['phone']
+        amount = request.POST['amount']
+        access_token = MpesaAccessToken.validated_mpesa_access_token
+        api_url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest"
+        headers = {"Authorization": "Bearer %s" % access_token}
+        request = {
+            "BusinessShortCode": LipanaMpesaPpassword.Business_short_code,
+            "Password": LipanaMpesaPpassword.decode_password,
+            "Timestamp": LipanaMpesaPpassword.lipa_time,
+            "TransactionType": "CustomerPayBillOnline",
+            "Amount": amount,
+            "PartyA": phone,
+            "PartyB": LipanaMpesaPpassword.Business_short_code,
+            "PhoneNumber": phone,
+            "CallBackURL": "https://sandbox.safaricom.co.ke/mpesa/",
+            "AccountReference": "eMobilis",
+            "TransactionDesc": "Web Development Charges"
+        }
+        response = requests.post(api_url, json=request, headers=headers)
+        return HttpResponse("Chek a Pop-up on your phone, input your Mpesa pin to complete your transuction")
+    
+    
+    

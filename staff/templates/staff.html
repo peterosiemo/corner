@@ -1,0 +1,39 @@
+
+{% extends "starter-page.html" %}
+{% load static %}
+{% block body %}
+<!-- Staff Section -->
+<section id="staff" class="staff section">
+    <div class="container section-title" data-aos="fade-up">
+      <h2>Our Team</h2>
+      <p><span>Meet Our</span> <span class="description-title">Professional Staff</span></p>
+    </div>
+  
+    <div class="container">
+      <div class="row gy-4">
+        {% for staff in staff_list %}
+        <div class="col-lg-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1 }}00">
+          <div class="team-member">
+            <div class="member-img">
+              <img src="{{ staff.photo.url }}" class="img-fluid" alt="{{ staff.name }}">
+              <div class="social">
+                <a href="{{ staff.twitter }}"><i class="bi bi-twitter"></i></a>
+                <a href="{{ staff.facebook }}"><i class="bi bi-facebook"></i></a>
+                <a href="{{ staff.instagram }}"><i class="bi bi-instagram"></i></a>
+                <a href="{{ staff.linkedin }}"><i class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+            <div class="member-info">
+              <h4>{{ staff.name }}</h4>
+              <span>{{ staff.role }}</span>
+              <p>{{ staff.bio }}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {% endblock %}
+  

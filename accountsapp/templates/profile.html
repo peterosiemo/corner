@@ -1,6 +1,26 @@
-<h2>Welcome, {{ user.username }}</h2>
-<p>Email: {{ user.email }}</p>
-<p>Bio: {{ user.bio }}</p>
-{% if user.profile_picture %}
-    <img src="{{ user.profile_picture.url }}" alt="Profile Picture">
-{% endif %}
+{% extends "starter-page.html" %}
+{% load static %}
+{% block body %}
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                {% if user.profile_picture %}
+                    <img src="{{ user.profile_picture.url }}" class="card-img-top" alt="Profile Picture">
+                {% endif %}
+                <div class="card-body text-center">
+                    <h2 class="card-title">Welcome, {{ user.username }}</h2>
+                    <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
+                    {% if user.bio %}
+                        <p class="card-text"><strong>Bio:</strong> {{ user.bio }}</p>
+                    {% endif %}
+                    <a href="{% url 'edit_profile' %}" class="btn btn-primary mt-3">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

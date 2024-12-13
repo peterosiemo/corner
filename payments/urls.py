@@ -1,8 +1,8 @@
-
 from django.urls import path
-from . import views
+from payments import views
 
 urlpatterns = [
-    path('initiate/', views.initiate_payment, name='initiate_payment'),
-    path('confirmation/', views.payment_confirmation, name='payment_confirmation'),
+    path('pay/', views.pay, name='pay'),
+    path('stk/', views.stk, name='stk'),
+    path('token/', views.token, name='token'),
 ]

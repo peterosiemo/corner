@@ -1,0 +1,38 @@
+{% extends "starter-page.html" %}
+{% load static%}
+{% block body %}
+<div class="container py-4">
+    <h2>Order List</h2>
+    <form method="get" class="mb-4">
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Created At</th>
+                <th>Status</th>
+                <th>Total Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.id }}</td>
+                <td>{{ order.customer.username }}</td>
+                <td>{{ order.created_at }}</td>
+                <td>{{ order.status }}</td>
+                <td>${{ order.calculate_total }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if orders|length == 0 %}
+    <p class="text-center">No orders found.</p>
+    {% endif %}
+</div>
+{% endblock %}

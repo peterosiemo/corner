@@ -1,0 +1,55 @@
+{% extends "starter-page.html" %}
+
+{% load static %}
+
+{% block body %}
+
+<!-- Chefs Section -->
+<section id="chefs" class="chefs section">
+
+    <!-- Section Title -->
+    <div class="container section-title" data-aos="fade-up">
+        <h2>chefs</h2>
+        <p><span>Our</span> <span class="description-title">Professional Chefs<br></span></p>
+    </div><!-- End Section Title -->
+
+    <div class="container">
+
+        <div class="row gy-4">
+
+            {% for staff in staff_members %}
+            <div class="col-lg-4 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="{{ forloop.counter0|add:1|add:0 }}00">
+                <div class="team-member">
+                    <div class="member-img">
+                        <img src="{{ staff.photo.url }}" class="img-fluid" alt="{{ staff.name }}">
+                        <div class="social">
+                            {% if staff.twitter %}
+                            <a href="{{ staff.twitter }}"><i class="bi bi-twitter-x"></i></a>
+                            {% endif %}
+                            {% if staff.facebook %}
+                            <a href="{{ staff.facebook }}"><i class="bi bi-facebook"></i></a>
+                            {% endif %}
+                            {% if staff.instagram %}
+                            <a href="{{ staff.instagram }}"><i class="bi bi-instagram"></i></a>
+                            {% endif %}
+                            {% if staff.linkedin %}
+                            <a href="{{ staff.linkedin }}"><i class="bi bi-linkedin"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="member-info">
+                        <h4>{{ staff.name }}</h4>
+                        <span>{{ staff.role }}</span>
+                        <p>{{ staff.bio }}</p>
+                    </div>
+                </div>
+            </div><!-- End Chef Team Member -->
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</section><!-- /Chefs Section -->
+
+{% endblock %}

@@ -70,13 +70,13 @@
             </p>
           </div>
         </div>
-      </div>
+      
 
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="{% url "index" %}">Home<br></a></li>
           <li><a href="{% url "about" %}">About</a></li>
-          <li><a href="{% url "menu" %}">Menu</a></li>
+          <li><a href="{% url "menu1" %}">Menu</a></li>
           <li><a href="{% url "events" %}">Events</a></li>
           <li><a href="{% url "chefs" %}">Chefs</a></li>
           <li><a href="{% url "gallery" %}">Gallery</a></li>
@@ -85,9 +85,17 @@
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
+      <a href="{% url "login3" %}">login as admin</a>
+      {% if user.is_authenticated %}
+        
+      <a class="btn-getstarted" href="{% url "place_order" %}">Make Order</a>
 
-      <a class="btn-getstarted" href="{% url "book" %}">Book a Table</a>
-
+      <a class="btn-getstarted" href="{% url "create_reservation" %}">Make Reservations</a>
+      {% else %}
+        <a href="{% url 'login1' %}">Login</a>
+        <a href="{% url 'signup' %}">Sign Up</a>
+      {% endif %}
+</div>
     </div>
   </header>
 

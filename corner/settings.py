@@ -38,6 +38,8 @@ INSTALLED_APPS = [
       'orders',
       'payments',
     'django_daraja',
+    'admin1app',
+    'staff',
       
     
 ]
@@ -46,7 +48,14 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
 
-AUTH_USER_MODEL = 'accountsapp.CustomUser'
+AUTH_USER_MODEL = 'admin1app.CustomUser'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -61,6 +70,11 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'corner.urls'
+
+LOGIN_URL = 'login1/'  # Update with the path to your login page
+LOGIN_REDIRECT_URL = '/'  # Update with the path after a successful login
+LOGOUT_REDIRECT_URL = '/'  # Update with the path after logout
+
 
 TEMPLATES = [
     {
